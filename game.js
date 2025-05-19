@@ -26,15 +26,22 @@ $(document).keypress(function() {
 
 function checkAnswer(currentLevel) {
     if (gamePattern[currentLevel] === userClickedPattern[currentLevel]) {
-      console.log("success");
-      if (userClickedPattern.length === gamePattern.length){
+        if (userClickedPattern.length === gamePattern.length){
+          setTimeout(function () {
+            nextSequence();
+          }, 1000);
+        }
+      } else {
+        playSound("wrong");
+        $("body").addClass("game-over");
+        $("#level-title").text("Game Over, Press Any Key to Restart");
+  
         setTimeout(function () {
-          nextSequence();
-        }, 1000);
+          $("body").removeClass("game-over");
+        }, 200);
+  
+        startOver();
       }
-    } else {
-      console.log("wrong");
-    }
 }
 
 function nextSequence (){
@@ -64,3 +71,9 @@ function animatePress(currentColour) {
         $("#" + currentColour).removeClass("pressed");
     }, 100);
 }
+
+function startOver() {
+    level = 0;
+    gamePattern = [];
+    started = false;
+  }
